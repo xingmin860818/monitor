@@ -1,10 +1,12 @@
 from db import *
-from getstatus import GetSysInf
+from getstatus import GetSysInfo
+import config
 
 class Database(object):
 	def __init__(self):
-		db_conn = '{}://{}:{}@{}'.format(config.db_server,config.conn_user,config.password,config.conn_addr)
-		db_server = 'use {}'.format(config.createdb)
+		#db_conn = '{}://{}:{}@{}'.format(config.db_server,config.conn_user,config.password,config.conn_addr)
+		db_conn = '%s://%s:%s@%s' % (config.db_server,config.conn_user,config.password,config.conn_addr)
+		db_server = 'use %s' % (config.createdb)
 		db = create_engine(db_conn)
 		db.execute(db_server)
 		Base.metadata.create_all(db)
@@ -13,12 +15,17 @@ class Database(object):
 
 		self.getstatus = GetSysInfo()
 		
-	def Add(self,table,**kwargs):
+	def Insert(self):
+		pass
+		db_conn = '{}://{}:{}@{}'.format(config.db_server,config.conn_user,config.password,config.conn_addr)
 		try:
-			keywards = table(**kwargs)
-			self.session.add(keywards)
+			all_info = self.getstatus.get_all()
+			for k,v in all_info.iteritems():
+				self.session.add(k=v)
 			self.session.commit()
 			return True
 		except (sqlalchemy.exc.IntegrityError,TypeError):
 			self.session.rollback()
 			raise
+d = Database()
+d.Insert()

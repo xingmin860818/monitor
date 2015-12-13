@@ -5,7 +5,6 @@ from sqlalchemy import create_engine,and_,or_
 from sqlalchemy import Column,Integer,String,ForeignKey,SMALLINT
 from sqlalchemy.orm import sessionmaker,relationship,backref
 import sqlalchemy
-import config
 from sqlalchemy.dialects.mssql import SMALLINT
 
 
