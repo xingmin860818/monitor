@@ -1,6 +1,7 @@
 from db import *
 from getstatus import GetSysInfo
 import config
+###############3
 
 class Database(object):
 	def __init__(self):
